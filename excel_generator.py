@@ -5,7 +5,8 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
-import calc
+import web_crawler
+import common
 
 # If modifying these scopes, delete the file token.pickle.
 # SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
@@ -13,7 +14,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = '1pRGiHg-zSL-UJ5lOYbhq4T2CsFrAG60ENt2z49VFNAg'
-SAMPLE_RANGE_NAME = 'sheet1!A1:B'
+SAMPLE_RANGE_NAME = 'sheet1!A1:L'
 
 def main():
     """Shows basic usage of the Sheets API.
@@ -54,14 +55,40 @@ def main():
     #         # Print columns A and E, which correspond to indices 0 and 4.
     #         print('%s, %s' % (row[0], row[1]))
 
+
     value_range_body = {
-        'values': calc.getData()
+        'values': make_excel_values()
     }
     value_input_option = 'RAW'
     request = service.spreadsheets().values().update(spreadsheetId=SAMPLE_SPREADSHEET_ID, range=SAMPLE_RANGE_NAME,
                                                      valueInputOption=value_input_option, body=value_range_body)
     response = request.execute()
 
+def make_excel_values():
+    values = []
+    yield_data = web_crawler.get_yield_data()
+
+    columns = ["GDP", "GDP Ratio"] + common.YEAR_STEPS + ["Yield Gap (10 yr - 3mo)", "GDP wighted Yield Gap"]
+
+    values.append(["국가"] + columns)
+    for row in yield_data:
+        value = [row[0], '', '']
+        for column in common.YEAR_STEPS:
+            if row[1].get(column) is None:
+                value.append("")
+                continue
+            value.append(row[1].get(column))
+        if value[9] != '' and value[3] != '':
+            value.append(str(round(float(value[9]) - float(value[3]), 4)))
+        values.append(value)
+
+    values.append([""])
+    values.append(["total"])
+
+    print(values)
+    return values
+
 if __name__ == '__main__':
-    print("Start Global Yield Curve")
+    print("Start Global Yield Curve Generator")
     main()
+    print("End Global Yield Curve Generator")
