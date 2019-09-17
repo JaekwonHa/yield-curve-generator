@@ -11,11 +11,11 @@ def get_yield_data():
     data = urllib.request.urlopen(req).read()
     soup = BeautifulSoup(data, 'html.parser')
 
-    yield_data = []
+    yield_data = {}
 
     for country in common.COUNTRIES:
         country_data = {}
-        for year_step in common.YEAR_STEPS:
+        for year_step in common.YIELD_STEPS:
             title = country + " " + year_step
 
             result = soup.find(title=title)
@@ -24,6 +24,6 @@ def get_yield_data():
                 if result is not None:
                     result = result.next_sibling
                     country_data[year_step] = result.contents[0]
-        yield_data.append([country, country_data])
+        yield_data[country] = country_data
     print(yield_data)
     return yield_data
