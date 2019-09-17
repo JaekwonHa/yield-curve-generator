@@ -1,4 +1,7 @@
-YEAR_STEPS = ['3개월', '6개월', '1년', '2년', '3년', '5년', '10년']
+YIELD_STEPS = ['3개월', '6개월', '1년', '2년', '3년', '5년', '10년']
+YIELD_GAP_INFO = ['Yield Gap (10 yr - 3mo)', 'GDP wighted Yield Gap']
+GDP = ['GDP', 'GDP Ratio']
+
 COUNTRIES = [
     "캐나다",
     "미국",
@@ -18,6 +21,7 @@ COUNTRIES = [
     "스위스",
     "영국",
     "호주",
+    "중국",
     "홍콩",
     "일본",
     "뉴질랜드",
@@ -25,3 +29,6 @@ COUNTRIES = [
     "한국",
     "베트남"
 ]
+
+COLUMNS = ['국가'] + GDP + YIELD_STEPS + YIELD_GAP_INFO
+ROWS = ['국가'] + COUNTRIES
