@@ -30,5 +30,9 @@ COUNTRIES = [
     "베트남"
 ]
 
+HISTORY_TARGET = [
+    '미국', '중국', '한국', '일본', '영국', '독일'
+]
+
 COLUMNS = ['국가'] + GDP + YIELD_STEPS + YIELD_GAP_INFO
 ROWS = ['국가'] + COUNTRIES
