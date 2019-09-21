@@ -59,7 +59,7 @@ def main():
     #         print('%s, %s' % (row[0], row[1]))
 
     result = service.spreadsheets().values().get(spreadsheetId=SPREADSHEET_ID, range=YIELD_RANGE_NAME).execute()
-    print(result)
+    #print(result)
 
     yield_data = web_crawler.get_yield_data()
     excel_data = make_excel_data(yield_data)
@@ -100,7 +100,7 @@ def make_excel_data(yield_data):
             values[get_y(country)][get_x(common.YIELD_GAP_INFO[0])] = (
                 str(round(float(max_yield) - float(min_yield), 4)))
 
-    print(values)
+    #print(values)
     return values
 
 
@@ -119,7 +119,7 @@ def make_history_data(yield_data):
         else:
             history_data.append('')
 
-    print(history_data)
+    #print(history_data)
     return [history_data]
 
 
@@ -230,6 +230,8 @@ def make_excel_format():
 
 
 if __name__ == '__main__':
-    print("Start Global Yield Curve Generator")
+    now = datetime.datetime.now()
+    now_datetime = now.strftime('%Y-%m-%d %H:%M')
+    print("Start Global Yield Curve Generator : ", now_datetime)
     main()
     print("End Global Yield Curve Generator")
