@@ -25,5 +25,5 @@ def get_yield_data():
                     result = result.next_sibling
                     country_data[year_step] = result.contents[0]
         yield_data[country] = country_data
-    print(yield_data)
+    #print(yield_data)
     return yield_data
